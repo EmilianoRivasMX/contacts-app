@@ -10,7 +10,6 @@ This app was built using the following technologies:
 * MySQL
 
 ## Download
----
 To execute the project you have to download or clone this repository, then put it into apache directory depending your OS:
 
 * **Windows:** /xampp/htdocs
