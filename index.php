@@ -1,11 +1,12 @@
 <?php
-
-$contacts = [
-    ["name" => "Emiliano", "phone" => '5554505174'],
-    ["name" => "Juan"    , "phone" => "5567891911"],
-    ["name" => "Nancy"   , "phone" => "5512348755"],
-];
-
+    if (file_exists("contacts.json")) {
+        /* Por defecto json_decode devuelve un objeto, 
+        *  para devolver un array asocitativo colocamos el segundo parámetro como true */
+        $contacts = json_decode(file_get_contents("contacts.json"), true);
+    }
+    else {
+        $contacts = [];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -57,10 +58,10 @@ $contacts = [
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="./index.html">Home</a>
+                    <a class="nav-link" href="./index.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./add-contact.html">Add Contact</a>
+                    <a class="nav-link" href="./add-contact.php">Add Contact</a>
                 </li>
                 </ul>
             </div>
@@ -70,6 +71,14 @@ $contacts = [
     <main>
         <div class="container pt-4 p-3">
             <div class="row">
+            <?php if (count($contacts) == 0): ?>
+                <div class="col-md-6 mx-auto">
+                    <div class="card card-body text-center p-4">
+                        <p>No contacts saved yet</p>
+                        <a href="./add-contact.php">Add one!</a>
+                    </div>
+                </div>
+            <?php endif ?>
             <?php foreach ($contacts as $contact): ?>
                 <div class="col-md-4 mb-3">
                     <div class="card text-center">

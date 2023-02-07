@@ -1,3 +1,29 @@
+<?php
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Crea un nuevo contacto
+        $contact = [
+            "name"  => $_POST["name"],
+            "phone" => $_POST["phone"]
+        ];
+
+        // Verifica si ya existe una lista de contactos
+        if (file_exists("contacts.json")) {
+            $contacts = json_decode(file_get_contents("contacts.json"), true);
+        }
+        else {
+            $contacts = [];
+        }
+    
+        // Añade el nuevo contacto a la lista actual de contactos
+        $contacts[] = $contact; 
+
+        file_put_contents("contacts.json", json_encode($contacts));
+        
+        // Rediirige a la página de inicio
+        header("Location: index.php");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -46,10 +72,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="./index.html">Home</a>
+                    <a class="nav-link" href="./index.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./add-contact.html">Add Contact</a>
+                    <a class="nav-link" href="./add-contact.php">Add Contact</a>
                 </li>
                 </ul>
             </div>
@@ -63,7 +89,7 @@
                     <div class="card">
                         <div class="card-header">Add New Contact</div>
                         <div class="card-body">
-                            <form>
+                            <form method="POST" action="add-contact.php">
                                 <div class="mb-3 row">
                                     <label for="name" class="col-md-4 col-form-label text-md-end">Name</label>
                     
@@ -73,10 +99,10 @@
                                 </div>
                     
                                 <div class="mb-3 row">
-                                    <label for="phone_number" class="col-md-4 col-form-label text-md-end">Phone Number</label>
+                                    <label for="phone" class="col-md-4 col-form-label text-md-end">Phone Number</label>
                     
                                     <div class="col-md-6">
-                                        <input id="phone_number" type="tel" class="form-control" name="phone_number" required autocomplete="phone_number" autofocus>
+                                        <input id="phone" type="tel" class="form-control" name="phone" required autocomplete="phone_number" autofocus>
                                     </div>
                                 </div>
                     
