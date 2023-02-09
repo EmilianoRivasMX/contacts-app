@@ -13,7 +13,7 @@
         } else {
             // Inserta un nuevo registro en la base de datos
             try {
-                $stmt = $conn->prepare("INSERT INTO contacts(name, phone) VALUES(':name', ':phone')");
+                $stmt = $conn->prepare("INSERT INTO contacts(name, phone) VALUES(:name, :phone)");
                 $stmt->bindParam(":name", $_POST["name"]);
                 $stmt->bindParam(":phone", $_POST["phone"]);
                 $stmt->execute();
@@ -112,7 +112,7 @@
                                     <label for="phone" class="col-md-4 col-form-label text-md-end">Phone Number</label>
                     
                                     <div class="col-md-6">
-                                        <input id="phone" type="tel" class="form-control" name="phone" maxlength="15" required autocomplete="phone_number">
+                                        <input id="phone" type="tel" class="form-control" name="phone" maxlength="15" required autocomplete="phone">
                                     </div>
                                 </div>
                     
