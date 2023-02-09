@@ -1,20 +1,29 @@
 <?php
     require 'connection.php';
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $name  = $_POST["name"];
-        $phone = $_POST["phone"];
-    
-        // Inserta un nuevo registro en la base de datos
-        try {
-            $stmt = $conn->prepare("INSERT INTO contacts(name, phone) VALUES('$name', '$phone')");
-            $stmt->execute();
-        } catch(PDOException $error) {
-            die($error->getMessage());
-        }
+    $error = null;
 
-        // Rediirige a la página de inicio
-        header("Location: index.php");
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (empty($_POST['name']) || empty($_POST['phone'])) {
+            $error = "Please fill all the fields";
+        } elseif (strlen($_POST['phone']) < 10) {
+            $error = "The phone number must be al leats 10 characters";
+        } elseif (!is_numeric($_POST['phone'])) {
+            $error = "The phone is not a numeric string";
+        } else {
+            // Inserta un nuevo registro en la base de datos
+            try {
+                $stmt = $conn->prepare("INSERT INTO contacts(name, phone) VALUES(':name', ':phone')");
+                $stmt->bindParam(":name", $_POST["name"]);
+                $stmt->bindParam(":phone", $_POST["phone"]);
+                $stmt->execute();
+            } catch(PDOException $error) {
+                die($error->getMessage());
+            }
+
+            // Rediirige a la página de inicio
+            header("Location: index.php");
+        }
     }
 ?>
 
@@ -25,6 +34,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+        <link  rel="icon" href="./static/img/logo.png" type="image/png" />
         <link rel="stylesheet" href="./static/css/style.css">
     
         <!-- Bootswatch CDN -->
@@ -80,6 +90,12 @@
         <div class="container pt-5 p-3">
             <div class="row justify-content-center">
                 <div class="col-md-8">
+                    <?php if ($error): ?>
+                        <div class="alert alert-dismissible alert-primary">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <p class="mb-0">Error: <?= $error ?></p>
+                        </div>
+                    <?php endif ?>
                     <div class="card">
                         <div class="card-header">Add New Contact</div>
                         <div class="card-body">
@@ -88,7 +104,7 @@
                                     <label for="name" class="col-md-4 col-form-label text-md-end">Name</label>
                     
                                     <div class="col-md-6">
-                                        <input id="name" type="text" class="form-control" name="name" maxlength="50" required autocomplete="name" autofocus>
+                                        <input id="name" type="text" class="form-control" name="name" maxlength="30" required autocomplete="name" autofocus>
                                     </div>
                                 </div>
                     
