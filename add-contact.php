@@ -1,24 +1,18 @@
 <?php
+    require 'connection.php';
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Crea un nuevo contacto
-        $contact = [
-            "name"  => $_POST["name"],
-            "phone" => $_POST["phone"]
-        ];
-
-        // Verifica si ya existe una lista de contactos
-        if (file_exists("contacts.json")) {
-            $contacts = json_decode(file_get_contents("contacts.json"), true);
-        }
-        else {
-            $contacts = [];
-        }
+        $name  = $_POST["name"];
+        $phone = $_POST["phone"];
     
-        // Añade el nuevo contacto a la lista actual de contactos
-        $contacts[] = $contact; 
+        // Inserta un nuevo registro en la base de datos
+        try {
+            $stmt = $conn->prepare("INSERT INTO contacts(name, phone) VALUES('$name', '$phone')");
+            $stmt->execute();
+        } catch(PDOException $error) {
+            die($error->getMessage());
+        }
 
-        file_put_contents("contacts.json", json_encode($contacts));
-        
         // Rediirige a la página de inicio
         header("Location: index.php");
     }
@@ -94,7 +88,7 @@
                                     <label for="name" class="col-md-4 col-form-label text-md-end">Name</label>
                     
                                     <div class="col-md-6">
-                                        <input id="name" type="text" class="form-control" name="name" required autocomplete="name" autofocus>
+                                        <input id="name" type="text" class="form-control" name="name" maxlength="50" required autocomplete="name" autofocus>
                                     </div>
                                 </div>
                     
@@ -102,7 +96,7 @@
                                     <label for="phone" class="col-md-4 col-form-label text-md-end">Phone Number</label>
                     
                                     <div class="col-md-6">
-                                        <input id="phone" type="tel" class="form-control" name="phone" required autocomplete="phone_number" autofocus>
+                                        <input id="phone" type="tel" class="form-control" name="phone" maxlength="15" required autocomplete="phone_number">
                                     </div>
                                 </div>
                     

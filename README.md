@@ -15,6 +15,22 @@ To execute the project you have to download or clone this repository, then put i
 * **Windows:** /xampp/htdocs
 * **Linux:** /var/www/html
 
+Then run the following command on the project folder:
+``` bash
+composer install
+```
+
+## Database
+To establish a connection to your database you have to create an **.env** file and fill in the following environment variables:
+
+``` bash
+# Database credentials
+HOST = "Host"
+DB   = "Database name"
+USER = "Database user"
+PWD  = "Database password"
+```
+
 And that's it, remember you can follow me on my social networks:
 
 [![LINKEDIN](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/emilianorivasmx/) [![TWITTER](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/EmilianoRivasMX) 
