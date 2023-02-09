@@ -1,32 +1,12 @@
-<?php
-require 'connection.php';
-
-$contacts = $conn->query("SELECT * FROM contacts");
-?>
-
-<?php require 'partials/header.php'; ?>
-<div class="container pt-4 p-3">
+<?php require 'partials/header.php' ?>
+<div class="container welcome d-flex justify-content-center align-items-center">
     <div class="row">
-    <?php if ($contacts->rowCount() == 0): ?>
-        <div class="col-md-6 mx-auto">
-            <div class="card card-body text-center p-4">
-                <p>No contacts saved yet</p>
-                <a href="./add-contact.php">Add one!</a>
-            </div>
+        <h1 class="text-center">Welcome to ContactsApp!</h1>
+        <h3 class="text-center">Store your contacts now</h3>
+
+        <div class="text-center">
+            <a href="register.php" class="btn register btn-primary">Get started</a>
         </div>
-    <?php endif ?>
-    <?php foreach ($contacts as $contact): ?>
-        <div class="col-md-4 mb-3">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h3 class="card-title text-capitalize"><?= $contact['name'] ?></h3>
-                    <p class="m-2"><?= $contact['phone'] ?></p>
-                    <a href="edit.php?id=<?= $contact['id'] ?>" class="btn btn-info mb-2">Edit Contact</a>
-                    <a href="delete.php?id=<?= $contact['id'] ?>" class="btn btn-danger mb-2">Delete Contact</a>
-                </div>
-            </div>
-        </div>
-    <?php endforeach ?>
     </div>
 </div>
-<?php require 'partials/footer.php'; ?>
+<?php require 'partials/footer.php' ?>

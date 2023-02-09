@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // Rediirige a la página de inicio
-        header("Location: index.php");
+        header("Location: home.php");
     }
 }
 
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div class="mb-3 row">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">Update</button>
-                                <a href="index.php" class="btn btn-info">Cancel</a>
+                                <a href="home.php" class="btn btn-info">Cancel</a>
                             </div>
                         </div>
                     </form>

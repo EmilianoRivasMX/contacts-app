@@ -22,7 +22,7 @@
             }
 
             // Rediirige a la página de inicio
-            header("Location: index.php");
+            header("Location: home.php");
         }
     }
 ?>

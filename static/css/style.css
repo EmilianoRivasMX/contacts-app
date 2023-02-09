@@ -1,4 +1,8 @@
 .navbar img {
-    width: 3rem;
+    width: 5vh;
     margin-right: 10px;
+}
+
+.welcome {
+    height: 80vh;
 }
