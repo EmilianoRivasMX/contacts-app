@@ -10,21 +10,26 @@
             $error = "Please, enter a valid email";
         } else {
             // Comprueba si existe el usuario a traves del email
-            $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
+            $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
             $stmt->bindParam(":email", $_POST['email']);
             $stmt->execute();
 
-            if ($stmt->rowCount > 0) {
+            if ($stmt->rowCount() > 0) {
                 $error = "This email is taken";
             } else {
-                // Reigstra el nuevo usuario
                 try {
+                    // Reigstra el nuevo usuario
                     $conn->prepare("INSERT INTO users(name, email, password) VALUES(:name, :email, :password)")
                     ->execute([
                        ":name" => $_POST['name'], 
                        ":email" => $_POST['email'], 
                        ":password" => password_hash($_POST['password'], PASSWORD_BCRYPT)
                     ]);
+
+                    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                    session_start(); // Inicia la sesión
+                    $_SESSION['user'] = $user;
+
                 } catch (PDOException $error) {
                     die($error->getMessage());
                 }

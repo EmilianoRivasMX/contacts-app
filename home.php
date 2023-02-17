@@ -1,6 +1,13 @@
 <?php
 require 'connection.php';
 
+session_start();
+// Restringe el acceso a la página sin estar autenticado
+if (!isset($_SESSION['user'])) {
+    header("Location: login.php");
+    return;
+}
+
 $contacts = $conn->query("SELECT * FROM contacts");
 ?>
 
