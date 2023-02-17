@@ -22,6 +22,13 @@ if ($stmt->rowCount() == 0) {
 
 $contact = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// Impede la edicion de contactos de otros usuarios
+if ($contact['user_id'] !== $_SESSION['user']['id']) {
+    http_response_code(403);
+    echo "HTTP 403 UNAUTHORIZED";
+    return;
+}
+
 $error = null;
 
 // Valida y actualiza el contacto en la base de datos
