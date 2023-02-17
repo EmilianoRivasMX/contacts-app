@@ -19,17 +19,16 @@
             $error = "The phone is not a numeric string";
         } else {
             // Inserta un nuevo registro en la base de datos
-            try {
-                $stmt = $conn->prepare("INSERT INTO contacts(name, phone, user_id) VALUES(:name, :phone, {$_SESSION['user']['id']})");
-                $stmt->bindParam(":name", $_POST["name"]);
-                $stmt->bindParam(":phone", $_POST["phone"]);
-                $stmt->execute();
-            } catch(PDOException $error) {
-                die($error->getMessage());
-            }
+            $stmt = $conn->prepare("INSERT INTO contacts(name, phone, user_id) VALUES(:name, :phone, {$_SESSION['user']['id']})");
+            $stmt->bindParam(":name", $_POST["name"]);
+            $stmt->bindParam(":phone", $_POST["phone"]);
+            $stmt->execute();
+
+            $_SESSION['flash'] = ["message" => "Contact {$_POST["name"]} added"];
 
             // Rediirige a la página de inicio
             header("Location: home.php");
+            return;
         }
     }
 ?>
@@ -67,6 +66,7 @@
                         <div class="mb-3 row">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">Add</button>
+                                <a href="home.php" class="btn btn-info">Cancel</a>
                             </div>
                         </div>
                     </form>

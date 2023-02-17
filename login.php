@@ -29,6 +29,7 @@
                     $_SESSION['user'] = $user;
 
                     header("Location: home.php");
+                    return;
                 }
             }
         }

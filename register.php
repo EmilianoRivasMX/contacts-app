@@ -41,6 +41,7 @@
                 }
                 
                 header("Location: home.php");
+                return;
             }
 
         }

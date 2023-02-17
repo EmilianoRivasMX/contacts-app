@@ -52,7 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // Rediirige a la página de inicio
+        $_SESSION['flash'] = ["message" => "Contact {$_POST["name"]} updated"];
         header("Location: home.php");
+        return;
     }
 }
 
