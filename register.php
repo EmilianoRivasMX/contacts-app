@@ -10,7 +10,7 @@
             $error = "Please, enter a valid email";
         } else {
             // Comprueba si existe el usuario a traves del email
-            $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
+            $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
             $stmt->bindParam(":email", $_POST['email']);
             $stmt->execute();
 
@@ -26,8 +26,14 @@
                        ":password" => password_hash($_POST['password'], PASSWORD_BCRYPT)
                     ]);
 
+                    // Comprueba si existe el nuevo usuario
+                    $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
+                    $stmt->bindParam(":email", $_POST['email']);
+                    $stmt->execute();
+
                     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                    session_start(); // Inicia la sesión
+                    unset($user['password']);   // Elimina la contraseña del array $user
+                    session_start();            // Inicia la sesión
                     $_SESSION['user'] = $user;
 
                 } catch (PDOException $error) {

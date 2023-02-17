@@ -1,6 +1,7 @@
 <?php
     require 'connection.php';
 
+    session_start();
     // Restringe el acceso a la página sin estar autenticado
     if (!isset($_SESSION['user'])) {
         header("Location: login.php");
@@ -19,7 +20,7 @@
         } else {
             // Inserta un nuevo registro en la base de datos
             try {
-                $stmt = $conn->prepare("INSERT INTO contacts(name, phone) VALUES(:name, :phone)");
+                $stmt = $conn->prepare("INSERT INTO contacts(name, phone, user_id) VALUES(:name, :phone, {$_SESSION['user']['id']})");
                 $stmt->bindParam(":name", $_POST["name"]);
                 $stmt->bindParam(":phone", $_POST["phone"]);
                 $stmt->execute();
